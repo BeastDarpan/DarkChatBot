@@ -14,7 +14,7 @@ const App = () => {
 
     try {
       const response = await fetch(
-        "https://dark-chatbot.onrender.com/chat", // ✅ UPDATED API URL (Replace with your Render URL)
+        "https://darkchatbot.onrender.com/chat", // ✅ UPDATED API URL (Replace with your Render URL)
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
