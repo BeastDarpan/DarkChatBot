@@ -7,7 +7,13 @@ dotenv.config(); // Load API Key from .env file
 const app = express();
 const PORT = process.env.PORT || 5000; // Render dynamic port binding
 
-app.use(cors());
+// ✅ CORS Properly Enable Kiya
+app.use(cors({
+  origin: "*",  // Agar specific frontend hai toh yaha daal
+  methods: "GET,POST",
+  allowedHeaders: "Content-Type"
+}));
+
 app.use(express.json());
 
 // ✅ TEST ROUTE (Ye Must Hai)
