@@ -1,46 +1,55 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { HfInference } from '@huggingface/inference';
 
 dotenv.config(); // Load API Key from .env file
 
 const app = express();
-const PORT = process.env.PORT || 5000; // Render dynamic port binding
+const PORT = 5000;
 
-// ✅ CORS Properly Enable Kiya
-app.use(cors({
-  origin: "*",  // Agar specific frontend hai toh yaha daal
-  methods: "GET,POST",
-  allowedHeaders: "Content-Type"
-}));
-
+app.use(cors());
 app.use(express.json());
 
-// ✅ TEST ROUTE (Ye Must Hai)
-app.get("/", (req, res) => {
-  res.send("Backend is Running ✅");
-});
+// Initialize Hugging Face inference client
+const hf = new HfInference(process.env.HUGGINGFACE_API_KEY);
 
-// ✅ CHATBOT ROUTE
+// Hugging Face API Call Function
+const fetchSarcasticReply = async (userMessage) => {
+  try {
+    const response = await hf.textGeneration({
+      model: "mistralai/Mixtral-8x7B-Instruct-v0.1",  // Popular open-source model
+      inputs: `[INST] <<SYS>>
+      You are a sarcastic and dark-humored AI and can also reply in hinglish when required. Keep responses short and witty.
+      <</SYS>>
+      ${userMessage} [/INST]`,
+      parameters: {
+        max_new_tokens: 100,
+        temperature: 0.9,
+        top_p: 0.9,
+        return_full_text: false
+      }
+    });
+
+    const botReply = response.generated_text.trim();
+    return botReply;
+  } catch (error) {
+    console.error("Error fetching AI response:", error);
+    return "Arre bhai, AI ne galti kar di... thoda time de phir try karna! 😅";
+  }
+};
+
+// Chatbot API Route (remains same)
 app.post("/chat", async (req, res) => {
   const userMessage = req.body.message;
+  console.log("User:", userMessage);
 
-  if (!userMessage) {
-    return res.status(400).json({ error: "Message is required!" });
-  }
+  const aiReply = await fetchSarcasticReply(userMessage);
+  console.log("Bot:", aiReply);
 
-  try {
-    // Fake reply, abhi ke liye
-    const botReply = `Sarcastic Reply for: ${userMessage}`;
-
-    res.json({ message: botReply });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "Server Error" });
-  }
+  res.json({ message: aiReply });
 });
 
-// ✅ Server Listen 0.0.0.0 Pe
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🔥 Server is running on port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`🔥 Server is running on http://localhost:${PORT}`);
 });
