@@ -4,6 +4,29 @@ const App = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
+  // Speech Recognition (STT) Disabled
+  // const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  // recognition.lang = "en-IN"; // Hinglish support
+  // recognition.continuous = false;
+  // recognition.interimResults = false;
+
+  // recognition.onresult = (event) => {
+  //   const speechText = event.results[0][0].transcript;
+  //   setInput(speechText);
+  //   sendMessage(speechText);
+  // };
+
+  // const startListening = () => {
+  //   recognition.start();
+  // };
+
+  // Text-to-Speech (TTS) Disabled
+  // const speak = (text) => {
+  //   const utterance = new SpeechSynthesisUtterance(text);
+  //   utterance.lang = "en-IN";
+  //   speechSynthesis.speak(utterance);
+  // };
+
   // Send message to backend
   const sendMessage = async (text) => {
     if (!text.trim()) return;
@@ -13,24 +36,20 @@ const App = () => {
     setInput("");
 
     try {
-      const response = await fetch(
-        "https://darkchatbot.onrender.com/chat", // ✅ UPDATED API URL (Replace with your Render URL)
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: text }),
-        }
-      );
+      const response = await fetch("http://127.0.0.1:5000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text }),
+      });
 
       const data = await response.json();
       const botMessage = { sender: "bot", text: data.message };
       setMessages((prev) => [...prev, botMessage]);
+      // Speak function is now disabled, so no TTS will happen
+      // speak(data.message);
     } catch (error) {
       console.error("Error:", error);
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: "Bhai, server so raha hai. Try again later! 🤖" },
-      ]);
+      setMessages((prev) => [...prev, { sender: "bot", text: "Bhai, server so raha hai. Try again later! 🤖" }]);
     }
   };
 
@@ -48,6 +67,8 @@ const App = () => {
           ))}
         </div>
         <div className="flex">
+          {/* Disabled voice recognition button */}
+          {/* <button onClick={startListening} className="bg-red-500 p-2 rounded mr-2">🎤</button> */}
           <input
             type="text"
             value={input}
@@ -55,9 +76,7 @@ const App = () => {
             className="flex-grow p-2 rounded bg-gray-700 text-white"
             placeholder="Type a message..."
           />
-          <button onClick={() => sendMessage(input)} className="bg-blue-500 p-2 rounded ml-2">
-            Send
-          </button>
+          <button onClick={() => sendMessage(input)} className="bg-blue-500 p-2 rounded ml-2">Send</button>
         </div>
       </div>
     </div>
