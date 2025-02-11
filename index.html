@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Dark ChatBot by Darpan Varshney - Chat with AI for ultimate sophistication.">
+  <meta name="keywords" content="AI, ChatBot, Darpan Varshney, Dark ChatBot, BeastDarpan">
+  <meta name="author" content="Darpan Varshney">
+  <meta property="og:title" content="Dark ChatBot | BeastDarpan">
+  <meta property="og:description" content="Chatting with AI is the ultimate sophistication.">
+  <meta property="og:image" content="https://beastdarpan.github.io/ai_chatbot/logo.png">
+  <meta property="og:url" content="https://beastdarpan.github.io/ai_chatbot/">
+  <title>Dark Chatbot | BeastDarpan</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo-container">
+        <h1 class="logo">DARK CHATBOT</h1>
+        <p class="subheading">Made By Darpan Varshney</p>
+      </div>
+      <nav class="nav">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+    </header>
+    <main class="main-content" id="home">
+      <div class="graphic">
+        <!-- Animated SVG Graphic -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="150" height="150">
+          <circle cx="50" cy="50" r="40" fill="#333" />
+          <circle cx="50" cy="50" r="30" fill="#555" />
+          <circle cx="50" cy="50" r="20" fill="#777" />
+        </svg>
+      </div>
+      <h2 class="main-title">Welcome to AI Dark ChatBot</h2>
+      <p class="main-text">Chatting with AI is the ultimate sophistication.</p>
+
+      <!-- Chat Interface -->
+      <div class="chat-container">
+        <div id="chat-box" class="chat-box">
+          <!-- Chat messages will appear here -->
+        </div>
+        <div class="chat-input">
+          <input type="text" id="user-input" placeholder="Yahan Likh Jo Likhna Hai (Type Here)...." />
+          <button id="send-button">Send</button>
+          <button id="clear-button">Clear</button> <!-- Clear Chat Button -->
+        </div>
+      </div>
+
+      <!-- About Section -->
+      <section id="about" class="page-section">
+        <h2 class="section-title">About Dark ChatBot</h2>
+        <div class="section-content">
+          <p><strong>#</strong> This bot is supposed to do some <strong>sarcastic and humorous talks</strong> with the user. Currently the bot is in its <strong>development phase</strong>. Responses could be inappropriate. Take no offense to the responses, be user-friendly and do <strong>not</strong> use any <strong>irrelevant abusive language</strong> </p>
+          <p><strong>#</strong> Thanks for using our bot. For further queries, you can contact us through contacts</p>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="page-section">
+        <h2 class="section-title">Contacts</h2>
+        <div class="section-content">
+          <div class="contact-item">
+            <img src="https://img.icons8.com/ios-filled/50/ff6f61/email.png" alt="Email Icon" class="contact-icon">
+            <p>E-mail: <a href="mailto:darpanvarshney1809@gmail.com">darpanvarshney1809@gmail.com</a></p>
+          </div>
+          <div class="contact-item">
+            <img src="https://img.icons8.com/ios-filled/50/ff6f61/discord.png" alt="Discord Icon" class="contact-icon">
+            <p>DC Username: <a href="https://discord.com/app">beastdarpan</a></p>
+          </div>
+          <div class="contact-item">
+            <img src="https://img.icons8.com/ios-filled/50/ff6f61/instagram-new.png" alt="Instagram Icon" class="contact-icon">
+            <p>Instagram: <a href="https://instagram.com/darpan.var" target="_blank">darpan.var</a></p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <p>&copy; <span id="year"></span> DV & Brothers. All rights reserved.</p>
+      <p>Visit us at: <a href="https://beastdarpan.github.io/ai_chatbot/" class="site-link">https://beastdarpan.github.io/ai_chatbot/</a></p>
+    </footer>
+  </div>
+
+  <!-- JavaScript for Dynamic Year and Chat Functionality -->
+  <script>
+    // Dynamic Year in Footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Chat Input Validation
+    document.getElementById('send-button').addEventListener('click', function() {
+      const userInput = document.getElementById('user-input').value.trim();
+      if (userInput === '') {
+        alert('Please enter a message.');
+        return;
+      }
+      // Add logic to handle the message
+      const chatBox = document.getElementById('chat-box');
+      const message = document.createElement('div');
+      message.textContent = userInput;
+      chatBox.appendChild(message);
+      document.getElementById('user-input').value = ''; // Clear input
+    });
+
+    // Clear Chat Functionality
+    document.getElementById('clear-button').addEventListener('click', function() {
+      document.getElementById('chat-box').innerHTML = '';
+    });
+  </script>
+
+  <!-- Link to your compiled JS files (React will bundle these) -->
+  <script src="script.js"></script> <!-- For frontend functionality -->
+</body>
+</html>
